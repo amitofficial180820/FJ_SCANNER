@@ -374,13 +374,9 @@ function handleCode(raw) {
   scannedCodes.add(code);
   if (navigator.vibrate) navigator.vibrate(80);
 
-  const now = new Date();
   const item = {
-    id: `${Date.now()}_${Math.random().toString(36).slice(2)}`,
     code,
-    number: scannedItems.length + 1,
-    timeStr: now.toLocaleTimeString('en-GB'),
-    dateStr: now.toLocaleDateString('en-GB'),
+    number: scannedItems.length + 1
   };
   scannedItems.push(item);
 
@@ -407,7 +403,6 @@ function renderItem(item) {
     <div class="item-num">${item.number}</div>
     <div class="item-info">
       <div class="item-code">${esc(item.code)}</div>
-      <div class="item-time">${item.timeStr}</div>
     </div>
     <button class="item-del" onclick="removeItem('${item.id}')">✕</button>
   `;
@@ -477,7 +472,6 @@ function goToResults() {
           <div class="item-num">${it.number}</div>
           <div class="item-info">
             <div class="item-code">${esc(it.code)}</div>
-            <div class="item-time">${it.dateStr} · ${it.timeStr}</div>
           </div>
         </div>`).join('');
 
@@ -501,8 +495,8 @@ function exportExcel() {
   btn.textContent = '⏳ Generating…';
   try {
     const wb = XLSX.utils.book_new();
-    const rows = [['SNO', 'QR Code', 'Date Scanned', 'Time Scanned']];
-    scannedItems.forEach(it => rows.push([it.number, it.code, it.dateStr, it.timeStr]));
+    const rows = [['SNO', 'QR Code']];
+    scannedItems.forEach(it => rows.push([it.number, it.code]));
     rows.push([], ['Total Items:', scannedItems.length]);
 
     const ws = XLSX.utils.aoa_to_sheet(rows);

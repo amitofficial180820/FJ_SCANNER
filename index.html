@@ -251,7 +251,7 @@
   <div class="list-wrap" id="item-list">
     <div class="empty-state" id="empty-state">
       <div class="empty-icon">📷</div>
-      <div class="empty-text">Point camera at a QR code</div>
+      <div class="empty-text">Point camera at QR code</div>
     </div>
   </div>
 
@@ -501,7 +501,7 @@ function exportExcel() {
   btn.textContent = '⏳ Generating…';
   try {
     const wb = XLSX.utils.book_new();
-    const rows = [['#', 'QR Code / Tag ID', 'Date Scanned', 'Time Scanned']];
+    const rows = [['SNO', 'QR Code', 'Date Scanned', 'Time Scanned']];
     scannedItems.forEach(it => rows.push([it.number, it.code, it.dateStr, it.timeStr]));
     rows.push([], ['Total Items:', scannedItems.length]);
 
@@ -511,11 +511,11 @@ function exportExcel() {
       if (ws[a]) ws[a].s = {
         font: { bold: true, color: { rgb: '131110' } },
         fill: { patternType: 'solid', fgColor: { rgb: 'D4A843' } },
-        alignment: { horizontal: 'center' }
+        alignment: { horizontal: 'left' }
       };
     });
     XLSX.utils.book_append_sheet(wb, ws, 'Scanned Items');
-    XLSX.writeFile(wb, `GoldScan_${new Date().toISOString().slice(0,10)}.xlsx`);
+    XLSX.writeFile(wb, `FIRST_JEWELLERY_${new Date().toISOString().slice(0,10)}.xlsx`);
   } catch(e) { alert('Export failed: ' + e.message); }
   setTimeout(() => { btn.disabled = false; btn.innerHTML = '⬇ Download Excel Sheet'; }, 1500);
 }
